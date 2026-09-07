@@ -100,7 +100,7 @@ with right:
             "45 Minutes",
             "1 Hour",
             "3 Hours",
-            "5 Hours"
+            "5 Hours",
             "12 Hours",
             "24 Hours",
             "2 Days",
