@@ -61,12 +61,6 @@ st.caption("Planning → Content Generation → Assessment → Review → Refine
 with st.sidebar:
     st.header("⚙️ AI Settings")
 
-    typed_api_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        help="For deployment, add GEMINI_API_KEY in Streamlit Secrets."
-    )
-
     model = st.text_input("Gemini Model", value=DEFAULT_MODEL)
 
     st.info("One study pack can use up to five AI calls, plus retries.")
@@ -92,15 +86,46 @@ with left:
         placeholder="Example: Simple explanations and practical examples."
     )
 
-with right:
+with right: 
     level = st.selectbox(
         "Student Level",
         ["Beginner", "Intermediate", "Advanced"]
     )
 
+    learning_duration = st.selectbox(
+        "⏱️ Learning Duration",
+        [
+            "15 Minutes",
+            "30 Minutes",
+            "45 Minutes",
+            "1 Hour",
+            "2 Hours",
+            "3+ Hours"
+        ]
+    )
+
     language = st.selectbox(
         "Language",
         ["English", "Urdu", "Roman Urdu"]
+    )
+
+    include_quiz = st.checkbox(
+        "📝 Include Quiz",
+        value=True
+    )
+
+    quiz_questions = 5
+
+    if include_quiz:
+        quiz_questions = st.selectbox(
+            "Number of Quiz Questions",
+            [5, 10, 15, 20]
+        )
+
+    selected_sections = st.multiselect(
+        "Study Pack Sections",
+        SECTIONS,
+        default=DEFAULT_SECTIONS
     )
 
     selected_sections = st.multiselect(
@@ -110,7 +135,7 @@ with right:
     )
 
 if st.button("🚀 Generate Study Pack", type="primary", use_container_width=True):
-    api_key = get_api_key(typed_api_key)
+    api_key = get_api_key()
 
     if not api_key:
         st.error(
