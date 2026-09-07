@@ -128,11 +128,6 @@ with right:
         default=DEFAULT_SECTIONS
     )
 
-    selected_sections = st.multiselect(
-        "Study Pack Sections",
-        SECTIONS,
-        default=DEFAULT_SECTIONS
-    )
 
 if st.button("🚀 Generate Study Pack", type="primary", use_container_width=True):
     api_key = get_api_key()
