@@ -31,8 +31,6 @@ Create a clear study-pack plan containing:
 6. Common mistakes or misconceptions
 7. Instructions for the content-generation stage
 
-Keep the plan practical and concise.
-'''
 Adjust the amount and depth of the study material so it can realistically
 be completed within the selected learning duration.
 
@@ -41,6 +39,9 @@ of questions.
 
 If Include Quiz is False, do not plan a quiz.
 
+Keep the plan practical and concise.
+'''
+    
 def generation_prompt(context, plan):
     return f'''
 You are the CONTENT GENERATION AGENT.
@@ -76,14 +77,13 @@ RULES
 - For flashcards, use Question -> Answer format.
 - For worked examples, explain the steps clearly.
 
+- Adjust the amount of content according to the selected learning duration.
+- If Include Quiz is True, include exactly the requested number of quiz
+questions.
+- If Include Quiz is False, do not include a quiz section.
+
 Return only the complete first draft.
 '''
-Adjust the amount of content according to the selected learning duration.
-
-If Include Quiz is True, include exactly the requested number of quiz
-questions.
-
-If Include Quiz is False, do not include a quiz section.
 
 def assessment_prompt(context, plan, draft):
     return f'''
@@ -122,6 +122,8 @@ Evaluate the draft for:
 - Usefulness for revision
 - Quality of questions and flashcards
 - Compliance with requested sections and language
+- Whether the content fits the selected learning duration
+- Whether the quiz settings were followed correctly
 
 Return:
 1. Score out of 100
@@ -130,8 +132,6 @@ Return:
 4. Specific corrections needed
 5. PASS or NEEDS REFINEMENT
 '''
-- Whether the content fits the selected learning duration
-- Whether the quiz settings were followed correctly
 
 def review_prompt(context, draft, assessment):
     return f'''
@@ -164,13 +164,14 @@ Create an actionable editorial review containing:
 5. What should be removed
 6. How assessment questions or flashcards should improve
 7. A prioritized refinement checklist
-'''
+
 Check whether the study pack length matches the selected learning duration.
 
 If a quiz is requested, verify that the quiz contains the correct number
 of questions.
 
 If a quiz is not requested, make sure no quiz is included.
+'''
 
 def refinement_prompt(context, plan, draft, assessment, review):
     return f'''
@@ -221,11 +222,10 @@ FINAL RULES
 - Remove workflow commentary and internal notes.
 - Do not mention agents, prompts, assessment scores, drafts, or refinement.
 
+- Keep the final study pack appropriate for the selected learning duration.
+- If Include Quiz is True, include exactly the requested number of quiz
+questions.
+- If Include Quiz is False, do not include a quiz.
+
 Return only the final polished study pack.
 '''
-Keep the final study pack appropriate for the selected learning duration.
-
-If Include Quiz is True, include exactly the requested number of quiz
-questions.
-
-If Include Quiz is False, do not include a quiz.
