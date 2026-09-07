@@ -13,6 +13,9 @@ STUDENT CONTEXT
 Topic: {context['topic']}
 Level: {context['level']}
 Language: {context['language']}
+Learning Duration: {context['learning_duration']}
+Include Quiz: {context['include_quiz']}
+Quiz Questions: {context['quiz_questions']}
 Learning Goal: {context['goal']}
 Preferences: {context['preferences']}
 
@@ -30,7 +33,13 @@ Create a clear study-pack plan containing:
 
 Keep the plan practical and concise.
 '''
+Adjust the amount and depth of the study material so it can realistically
+be completed within the selected learning duration.
 
+If Include Quiz is True, plan a quiz with exactly the requested number
+of questions.
+
+If Include Quiz is False, do not plan a quiz.
 
 def generation_prompt(context, plan):
     return f'''
@@ -42,6 +51,9 @@ STUDENT CONTEXT
 Topic: {context['topic']}
 Level: {context['level']}
 Language: {context['language']}
+Learning Duration: {context['learning_duration']}
+Include Quiz: {context['include_quiz']}
+Quiz Questions: {context['quiz_questions']}
 Learning Goal: {context['goal']}
 Preferences: {context['preferences']}
 
@@ -66,7 +78,12 @@ RULES
 
 Return only the complete first draft.
 '''
+Adjust the amount of content according to the selected learning duration.
 
+If Include Quiz is True, include exactly the requested number of quiz
+questions.
+
+If Include Quiz is False, do not include a quiz section.
 
 def assessment_prompt(context, plan, draft):
     return f'''
@@ -78,6 +95,9 @@ STUDENT CONTEXT
 Topic: {context['topic']}
 Level: {context['level']}
 Language: {context['language']}
+Learning Duration: {context['learning_duration']}
+Include Quiz: {context['include_quiz']}
+Quiz Questions: {context['quiz_questions']}
 Learning Goal: {context['goal']}
 
 Requested Sections:
@@ -110,7 +130,8 @@ Return:
 4. Specific corrections needed
 5. PASS or NEEDS REFINEMENT
 '''
-
+- Whether the content fits the selected learning duration
+- Whether the quiz settings were followed correctly
 
 def review_prompt(context, draft, assessment):
     return f'''
@@ -120,6 +141,9 @@ Do NOT rewrite the full study pack.
 
 TOPIC: {context['topic']}
 LEVEL: {context['level']}
+Learning Duration: {context['learning_duration']}
+Include Quiz: {context['include_quiz']}
+Quiz Questions: {context['quiz_questions']}
 PREFERENCES: {context['preferences']}
 
 DRAFT
@@ -141,7 +165,12 @@ Create an actionable editorial review containing:
 6. How assessment questions or flashcards should improve
 7. A prioritized refinement checklist
 '''
+Check whether the study pack length matches the selected learning duration.
 
+If a quiz is requested, verify that the quiz contains the correct number
+of questions.
+
+If a quiz is not requested, make sure no quiz is included.
 
 def refinement_prompt(context, plan, draft, assessment, review):
     return f'''
@@ -153,6 +182,9 @@ STUDENT CONTEXT
 Topic: {context['topic']}
 Level: {context['level']}
 Language: {context['language']}
+Learning Duration: {context['learning_duration']}
+Include Quiz: {context['include_quiz']}
+Quiz Questions: {context['quiz_questions']}
 Learning Goal: {context['goal']}
 Preferences: {context['preferences']}
 
@@ -191,3 +223,9 @@ FINAL RULES
 
 Return only the final polished study pack.
 '''
+Keep the final study pack appropriate for the selected learning duration.
+
+If Include Quiz is True, include exactly the requested number of quiz
+questions.
+
+If Include Quiz is False, do not include a quiz.
