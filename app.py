@@ -99,8 +99,18 @@ with right:
             "30 Minutes",
             "45 Minutes",
             "1 Hour",
-            "2 Hours",
-            "3+ Hours"
+            "3 Hours",
+            "5 Hours"
+            "12 Hours",
+            "24 Hours",
+            "2 Days",
+            "1 Week",
+            "2 Weeks",
+            "4 Weeks",
+            "2 Months",
+            "3 Months",
+            "6 Months",
+            "12 Months",
         ]
     )
 
