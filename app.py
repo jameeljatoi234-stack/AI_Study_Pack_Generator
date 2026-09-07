@@ -151,6 +151,9 @@ if st.button("🚀 Generate Study Pack", type="primary", use_container_width=Tru
             "topic": topic.strip(),
             "level": level,
             "language": language,
+            "learning_duration": learning_duration,
+            "include_quiz": include_quiz,
+            "quiz_questions": quiz_questions if include_quiz else 0,
             "goal": goal.strip() or "General learning and exam revision",
             "preferences": (
                 preferences.strip()
